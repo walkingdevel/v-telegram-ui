@@ -21,7 +21,7 @@ struct App {
 	window &ui.Window
 }
 
-fn create_chats_item() &ui.Stack {
+fn create_chats_item(contact_name string, last_message string, last_message_time string) &ui.Stack {
 	return ui.row(
 		heights: [64.0, 64.0, 64.0]
 		widths: [54.0, 180.0, 32.0]
@@ -43,7 +43,7 @@ fn create_chats_item() &ui.Stack {
 					ui.row(
 						children: [
 							ui.label(
-								text: 'Saved messages'
+								text: contact_name
 								text_color: gx.white
 								text_size: 18.0
 							),
@@ -52,7 +52,7 @@ fn create_chats_item() &ui.Stack {
 					ui.row(
 						children: [
 							ui.label(
-								text: 'https://github.com/walkingdevel'
+								text: last_message
 								text_color: gx.gray
 								text_size: 16.0
 							),
@@ -66,7 +66,7 @@ fn create_chats_item() &ui.Stack {
 				}
 				children: [
 					ui.label(
-						text: '20:00'
+						text: last_message_time
 						text_color: gx.gray
 						text_size: 14.0
 					),
@@ -103,10 +103,19 @@ fn main() {
 					children: [
 						ui.column(
 							heights: [70.0, 70.0, 70.0]
-							children: [create_chats_item(), create_chats_item(),
-								create_chats_item()]
+							children: [
+								create_chats_item('Saved messages', 'https://github.com/walkingdevel',
+									'20:00'),
+								create_chats_item('vlang', 'https://github.com/vlang',
+									'18:21'),
+								create_chats_item('v-rss-reader', 'https://github.com/walkingdevel/v-rss-reader',
+									'13:23'),
+							]
 						),
-						create_chat(['hi', 'there']),
+						create_chat([
+							'hi',
+							'there',
+						]),
 					]
 				),
 			]
