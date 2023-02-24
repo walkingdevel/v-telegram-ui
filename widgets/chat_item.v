@@ -2,12 +2,13 @@ module widgets
 
 import ui
 import gx
+import messages { Message }
 
-pub fn new_chat_item(user_avatar_path string, user_fullname string, last_message string, last_message_time string) &ui.Stack {
-	message := if last_message.len > 30 {
-		'${last_message.substr(0, 30)}...'
+pub fn new_chat_item(message &Message) &ui.Widget {
+	message_text := if message.text.len > 30 {
+		'${message.text.substr(0, 30)}...'
 	} else {
-		last_message
+		message.text
 	}
 
 	return ui.row(
@@ -19,7 +20,7 @@ pub fn new_chat_item(user_avatar_path string, user_fullname string, last_message
 					ui.picture(
 						height: 48
 						width: 48
-						path: user_avatar_path
+						path: message.from.avatar_path
 					),
 				]
 			),
@@ -31,7 +32,7 @@ pub fn new_chat_item(user_avatar_path string, user_fullname string, last_message
 					ui.row(
 						children: [
 							ui.label(
-								text: user_fullname
+								text: message.from.fullname
 								text_color: gx.white
 								text_size: 18.0
 							),
@@ -40,7 +41,7 @@ pub fn new_chat_item(user_avatar_path string, user_fullname string, last_message
 					ui.row(
 						children: [
 							ui.label(
-								text: message
+								text: message_text
 								text_color: gx.gray
 								text_size: 16.0
 							),
@@ -54,7 +55,7 @@ pub fn new_chat_item(user_avatar_path string, user_fullname string, last_message
 				}
 				children: [
 					ui.label(
-						text: last_message_time
+						text: message.time.hhmm()
 						text_color: gx.gray
 						text_size: 14.0
 					),

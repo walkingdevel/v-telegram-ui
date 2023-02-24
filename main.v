@@ -4,6 +4,9 @@ import ui
 import gx
 import os
 import widgets
+import time
+import users { User }
+import messages { Message }
 
 const (
 	window_title     = 'Telegram'
@@ -22,22 +25,43 @@ struct App {
 	window &ui.Window
 }
 
-fn create_chat(messages []string) &ui.Stack {
-	return ui.column(
-		children: messages.map(fn (message string) ui.Widget {
-			return ui.row(
-				children: [
-					ui.label(
-						text: message
-						text_color: gx.white
-					),
-				]
-			)
-		})
-	)
-}
-
 fn main() {
+	me := &User{
+		username: 'walkingdevel'
+		fullname: 'walking devel'
+		avatar_path: os.join_path('assets', 'v.png')
+	}
+	vlang := &User{
+		username: 'vlang'
+		fullname: 'vlang'
+		avatar_path: os.join_path('assets', 'v.png')
+	}
+	v_rss_reader := &User{
+		username: 'v-rss-reader'
+		fullname: 'V RSS Reader'
+		avatar_path: os.join_path('assets', 'v.png')
+	}
+	user_messages := [
+		Message{
+			from: me
+			to: me
+			text: 'https://github.com/walkingdevel'
+			time: time.now()
+		},
+		Message{
+			from: vlang
+			to: me
+			text: 'https://github.com/vlang'
+			time: time.now()
+		},
+		Message{
+			from: v_rss_reader
+			to: me
+			text: 'https://github.com/walkingdevel/v-rss-reader'
+			time: time.now()
+		},
+	]
+
 	app := App{
 		window: ui.window(
 			title: window_title
@@ -52,43 +76,9 @@ fn main() {
 					children: [
 						ui.column(
 							scrollview: true
-							heights: [70.0, 70.0, 70.0, 70.0, 70.0, 70.0, 70.0, 70.0, 70.0, 70.0,
-								70.0]
-							children: [
-								widgets.new_chat_item(os.join_path('assets', 'v.png'),
-									'Saved messages', 'https://github.com/walkingdevel',
-									'20:00'),
-								widgets.new_chat_item(os.join_path('assets', 'v.png'),
-									'vlang', 'https://github.com/vlang', '18:21'),
-								widgets.new_chat_item(os.join_path('assets', 'v.png'),
-									'v-rss-reader', 'https://github.com/walkingdevel/v-rss-reader',
-									'13:23'),
-								widgets.new_chat_item(os.join_path('assets', 'v.png'),
-									'vlang', 'https://github.com/vlang', '18:21'),
-								widgets.new_chat_item(os.join_path('assets', 'v.png'),
-									'v-rss-reader', 'https://github.com/walkingdevel/v-rss-reader',
-									'13:23'),
-								widgets.new_chat_item(os.join_path('assets', 'v.png'),
-									'vlang', 'https://github.com/vlang', '18:21'),
-								widgets.new_chat_item(os.join_path('assets', 'v.png'),
-									'v-rss-reader', 'https://github.com/walkingdevel/v-rss-reader',
-									'13:23'),
-								widgets.new_chat_item(os.join_path('assets', 'v.png'),
-									'vlang', 'https://github.com/vlang', '18:21'),
-								widgets.new_chat_item(os.join_path('assets', 'v.png'),
-									'v-rss-reader', 'https://github.com/walkingdevel/v-rss-reader',
-									'13:23'),
-								widgets.new_chat_item(os.join_path('assets', 'v.png'),
-									'vlang', 'https://github.com/vlang', '18:21'),
-								widgets.new_chat_item(os.join_path('assets', 'v.png'),
-									'v-rss-reader', 'https://github.com/walkingdevel/v-rss-reader',
-									'13:23'),
-							]
+							heights: user_messages.map(f64(70.0))
+							children: user_messages.map(*widgets.new_chat_item(it))
 						),
-						create_chat([
-							'hi',
-							'there',
-						]),
 					]
 				),
 			]
