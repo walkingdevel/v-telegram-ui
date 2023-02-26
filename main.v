@@ -126,7 +126,7 @@ fn main() {
 			children: [
 				ui.row(
 					heights: [ui.stretch]
-					widths: [280.0]
+					widths: [280.0, ui.stretch]
 					children: [
 						ui.column(
 							scrollview: true
@@ -134,11 +134,27 @@ fn main() {
 							children: user_messages.map(*widgets.new_chat_item(it))
 						),
 						ui.column(
+							widths: [ui.stretch]
 							children: [
-								widgets.new_chat([
-									'hi',
-									':)',
-									'bye',
+								widgets.new_chat(me, [
+									&Message{
+										from: me
+										to: vlang
+										text: 'Hello'
+										time: time.now()
+									},
+									&Message{
+										from: vlang
+										to: me
+										text: ':)'
+										time: time.now()
+									},
+									&Message{
+										from: me
+										to: vlang
+										text: 'https://github.com/walkingdevel/v-telegram-ui'
+										time: time.now()
+									},
 								]),
 							]
 						),

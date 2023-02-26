@@ -1,35 +1,36 @@
 module widgets
 
-import gx
 import ui
+import messages { Message }
+import users { User }
+import widgets
 
-pub fn new_chat(messages []string) &ui.Stack {
+pub fn new_chat(user &User, chat_messages []&Message) &ui.Stack {
 	return ui.column(
 		margin: ui.Margin{
 			top: 10.0
 			left: 10.0
+			right: 10.0
 		}
-		heights: messages.map(f64(50.0))
+		heights: chat_messages.map(f64(50.0))
 		scrollview: true
 		spacing: 10.0
-		children: messages.map(fn (message string) ui.Widget {
+		children: chat_messages.map(fn [user] (message &Message) ui.Widget {
+			widths := if user == message.from { [ui.stretch] } else { [100.0, ui.stretch] }
+
 			return ui.row(
-				bg_color: gx.Color{
-					r: 50
-					g: 50
-					b: 50
-					a: 255
-				}
-				bg_radius: 10.0
-				margin: ui.Margin{
-					top: 10.0
-					left: 10.0
-				}
+				widths: widths
 				children: [
-					ui.label(
-						text: message
-						text_color: gx.white
-					),
+					if user == message.from {
+						ui.Widget(ui.column())
+					} else {
+						widgets.new_message(message)
+					},
+					if user == message.from {
+						widgets.new_message(message)
+					} else {
+						ui.Widget(ui.column())
+					},
 				]
 			)
 		})
