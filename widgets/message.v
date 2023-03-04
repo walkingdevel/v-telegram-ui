@@ -1,8 +1,8 @@
 module widgets
 
 import ui
-import messages { Message }
 import gx
+import time
 
 const (
 	message_bg_color = gx.Color{
@@ -12,6 +12,14 @@ const (
 		a: 255
 	}
 )
+
+pub struct Message {
+pub:
+	from &User
+	to   &User
+	text string
+	time time.Time
+}
 
 pub fn new_message(message &Message) ui.Widget {
 	return ui.row(

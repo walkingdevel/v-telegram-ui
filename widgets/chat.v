@@ -1,10 +1,16 @@
 module widgets
 
 import ui
-import messages { Message }
-import users { User }
 import widgets
 
+pub struct User {
+pub:
+	username    string
+	fullname    string
+	avatar_path string
+}
+
+// TODO: Use widget params instead of using entities.
 pub fn new_chat(user &User, chat_messages []&Message) &ui.Stack {
 	return ui.column(
 		margin: ui.Margin{

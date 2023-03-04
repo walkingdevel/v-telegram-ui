@@ -3,10 +3,8 @@ module main
 import ui
 import gx
 import os
-import widgets
+import widgets { Message, User }
 import time
-import users { User }
-import messages { Message }
 
 const (
 	window_title  = 'Telegram'
@@ -32,95 +30,8 @@ struct App {
 }
 
 fn main() {
-	me := &User{
-		username: 'walkingdevel'
-		fullname: 'walking devel'
-		avatar_path: os.join_path('assets', 'v.png')
-	}
-	vlang := &User{
-		username: 'vlang'
-		fullname: 'vlang'
-		avatar_path: os.join_path('assets', 'v.png')
-	}
-	v_rss_reader := &User{
-		username: 'v-rss-reader'
-		fullname: 'V RSS Reader'
-		avatar_path: os.join_path('assets', 'v.png')
-	}
-	user_messages := [
-		Message{
-			from: me
-			to: me
-			text: 'https://github.com/walkingdevel'
-			time: time.now()
-		},
-		Message{
-			from: vlang
-			to: me
-			text: 'https://github.com/vlang'
-			time: time.now()
-		},
-		Message{
-			from: v_rss_reader
-			to: me
-			text: 'https://github.com/walkingdevel/v-rss-reader'
-			time: time.now()
-		},
-		Message{
-			from: me
-			to: me
-			text: 'https://github.com/walkingdevel'
-			time: time.now()
-		},
-		Message{
-			from: vlang
-			to: me
-			text: 'https://github.com/vlang'
-			time: time.now()
-		},
-		Message{
-			from: v_rss_reader
-			to: me
-			text: 'https://github.com/walkingdevel/v-rss-reader'
-			time: time.now()
-		},
-		Message{
-			from: me
-			to: me
-			text: 'https://github.com/walkingdevel'
-			time: time.now()
-		},
-		Message{
-			from: vlang
-			to: me
-			text: 'https://github.com/vlang'
-			time: time.now()
-		},
-		Message{
-			from: v_rss_reader
-			to: me
-			text: 'https://github.com/walkingdevel/v-rss-reader'
-			time: time.now()
-		},
-		Message{
-			from: me
-			to: me
-			text: 'https://github.com/walkingdevel'
-			time: time.now()
-		},
-		Message{
-			from: vlang
-			to: me
-			text: 'https://github.com/vlang'
-			time: time.now()
-		},
-		Message{
-			from: v_rss_reader
-			to: me
-			text: 'https://github.com/walkingdevel/v-rss-reader'
-			time: time.now()
-		},
-	]
+	me := get_test_users().first()
+	messages := get_test_messages()
 
 	app := App{
 		window: ui.window(
@@ -170,8 +81,8 @@ fn main() {
 								ui.column(
 									scrollview: true
 									bg_color: light_gray
-									heights: user_messages.map(f64(70.0))
-									children: user_messages.map(*widgets.new_chat_item(it))
+									heights: messages.map(f64(70.0))
+									children: messages.map(*widgets.new_chat_item(it))
 								),
 								ui.column(
 									bg_color: light_gray
@@ -183,24 +94,7 @@ fn main() {
 								ui.stretch,
 							]
 							children: [
-								widgets.new_chat(me, [&Message{
-									from: me
-									to: vlang
-									text: 'Hello'
-									time: time.now()
-								},
-									&Message{
-										from: vlang
-										to: me
-										text: ':)'
-										time: time.now()
-									},
-									&Message{
-										from: me
-										to: vlang
-										text: 'How are you?'
-										time: time.now()
-									}]),
+								widgets.new_chat(me, get_test_chat()),
 							]
 						),
 					]
@@ -210,4 +104,130 @@ fn main() {
 	}
 
 	ui.run(app.window)
+}
+
+fn get_test_users() []&User {
+	return [
+		&User{
+			username: 'walkingdevel'
+			fullname: 'walking devel'
+			avatar_path: os.join_path('assets', 'v.png')
+		},
+		&User{
+			username: 'vlang'
+			fullname: 'vlang'
+			avatar_path: os.join_path('assets', 'v.png')
+		},
+		&User{
+			username: 'v-rss-reader'
+			fullname: 'V RSS Reader'
+			avatar_path: os.join_path('assets', 'v.png')
+		},
+	]
+}
+
+fn get_test_messages() []&Message {
+	users := get_test_users()
+	me := users[0]
+	vlang := users[1]
+	v_rss_reader := users[2]
+
+	return [
+		&Message{
+			from: me
+			to: me
+			text: 'https://github.com/walkingdevel'
+			time: time.now()
+		},
+		&Message{
+			from: vlang
+			to: me
+			text: 'https://github.com/vlang'
+			time: time.now()
+		},
+		&Message{
+			from: v_rss_reader
+			to: me
+			text: 'https://github.com/walkingdevel/v-rss-reader'
+			time: time.now()
+		},
+		&Message{
+			from: me
+			to: me
+			text: 'https://github.com/walkingdevel'
+			time: time.now()
+		},
+		&Message{
+			from: vlang
+			to: me
+			text: 'https://github.com/vlang'
+			time: time.now()
+		},
+		&Message{
+			from: v_rss_reader
+			to: me
+			text: 'https://github.com/walkingdevel/v-rss-reader'
+			time: time.now()
+		},
+		&Message{
+			from: me
+			to: me
+			text: 'https://github.com/walkingdevel'
+			time: time.now()
+		},
+		&Message{
+			from: vlang
+			to: me
+			text: 'https://github.com/vlang'
+			time: time.now()
+		},
+		&Message{
+			from: v_rss_reader
+			to: me
+			text: 'https://github.com/walkingdevel/v-rss-reader'
+			time: time.now()
+		},
+		&Message{
+			from: me
+			to: me
+			text: 'https://github.com/walkingdevel'
+			time: time.now()
+		},
+		&Message{
+			from: vlang
+			to: me
+			text: 'https://github.com/vlang'
+			time: time.now()
+		},
+		&Message{
+			from: v_rss_reader
+			to: me
+			text: 'https://github.com/walkingdevel/v-rss-reader'
+			time: time.now()
+		},
+	]
+}
+
+fn get_test_chat() []&Message {
+	users := get_test_users()
+	me := users[0]
+	vlang := users[1]
+
+	return [&Message{
+		from: me
+		to: vlang
+		text: 'Hello'
+		time: time.now()
+	}, &Message{
+		from: vlang
+		to: me
+		text: ':)'
+		time: time.now()
+	},
+		&Message{
+			from: me
+			to: vlang
+			text: 'How are you?'
+			time: time.now()
+		}]
 }

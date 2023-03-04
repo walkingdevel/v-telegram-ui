@@ -2,7 +2,6 @@ module widgets
 
 import ui
 import gx
-import messages { Message }
 
 pub fn new_chat_item(message &Message) &ui.Widget {
 	message_text := if message.text.len > 30 {
